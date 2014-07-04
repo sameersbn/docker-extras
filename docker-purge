@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+	echo "Usage: $0 <containers|images|all>"
+	echo "  containers - removes all stopped docker containers"
+	echo "  images     - removes unnamed docker images"
+	echo "  all        - all of the above"
+	exit 1
+fi
+
+case $1 in
+	containers)
+		docker rm $(docker ps -a -q)
+		;;
+	images)
+		docker rmi $(docker images | grep none | awk '{print $3}' | sort -r)
+		;;
+	all)
+		docker rm $(docker ps -a -q)
+		docker rmi $(docker images | grep none | awk '{print $3}' | sort -r)
+		;;
+esac
