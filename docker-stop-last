@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# stop the most recent container
+docker stop $(docker ps -l -q)
