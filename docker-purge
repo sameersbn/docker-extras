@@ -2,7 +2,7 @@
 
 usage () {
 	echo "Usage: $0 <containers|images|all>"
-	echo "  containers - removes all stopped docker containers"
+	echo "  containers - removes stopped docker containers"
 	echo "  images     - removes unnamed docker images"
 	echo "  all        - all of the above"
 	echo "  help       - prints this message"
