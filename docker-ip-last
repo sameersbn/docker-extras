@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# return the ip address of the last created container
+docker inspect --format {{.NetworkSettings.IPAddress}} $(docker ps -l -q)
