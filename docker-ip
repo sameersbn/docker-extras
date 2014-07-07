@@ -1,0 +1,13 @@
+#!/bin/bash
+
+usage () {
+	echo "Usage: $0 <container-id|container-name>"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit 1
+fi
+
+# return the ip address of the last created container
+docker inspect --format {{.NetworkSettings.IPAddress}} ${1}
