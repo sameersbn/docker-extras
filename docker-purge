@@ -8,6 +8,24 @@ usage () {
 	echo "  help       - prints this message"
 }
 
+remove_containers () {
+	CONTAINERS=$(docker ps -a|awk '/Exited /{printf("%s ", $1)}')
+	if [[ -z $CONTAINERS ]]  ; then
+		echo "no inactive containers found"
+	else
+		docker rm $CONTAINERS
+	fi
+}
+
+remove_images () {
+	IMAGES=$(docker images | grep none | awk '{print $3}' | sort -r)
+	if [[ -z $IMAGES ]]  ; then
+		echo "no unused images found"
+	else
+		docker rmi $IMAGES
+	fi
+}
+
 if [ $# -ne 1 ]; then
 	usage
 	exit 1
@@ -15,14 +33,14 @@ fi
 
 case $1 in
 	containers)
-		docker rm $(docker ps -a -q)
+		remove_containers
 		;;
 	images)
-		docker rmi $(docker images | grep none | awk '{print $3}' | sort -r)
+		remove_images
 		;;
 	all)
-		docker rm $(docker ps -a -q)
-		docker rmi $(docker images | grep none | awk '{print $3}' | sort -r)
+		remove_containers
+		remove_images
 		;;
 	help)
 		usage
